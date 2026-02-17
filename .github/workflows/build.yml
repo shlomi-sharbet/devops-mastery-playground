@@ -45,7 +45,11 @@ jobs:
         with:
           host: ${{ secrets.EC2_INSTANCE_PUBLIC_IP }}
           username: root
-          key: ${{ secrets.SSH_KEY }} # store the SSH password as a secret in the repository
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script_stop: true
+          # By default, if 'fingerprint' is not specified, the action skips host key verification.
+          # This creates the "host_fingerprint: ignore" effect you wanted.
           script: |
             cd /root/devops-mastery-playground
             sudo /usr/local/bin/docker-compose  down || true

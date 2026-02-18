@@ -52,6 +52,7 @@ jobs:
           # This creates the "host_fingerprint: ignore" effect you wanted.
           script: |
             cd /root/devops-mastery-playground
-            sudo /usr/local/bin/docker-compose  down || true
+            git pull origin main
+            /usr/local/bin/docker-compose  down || true
             sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /root/devops-mastery-playground/docker-compose.yml
-            sudo /usr/local/bin/docker-compose  up -d || true
+            /usr/local/bin/docker-compose  up -d || true

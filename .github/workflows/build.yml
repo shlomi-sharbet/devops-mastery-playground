@@ -47,12 +47,10 @@ jobs:
           username: root
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          script_stop: true
-          # By default, if 'fingerprint' is not specified, the action skips host key verification.
-          # This creates the "host_fingerprint: ignore" effect you wanted.
           script: |
+            set -e
             cd /root/devops-mastery-playground
-            git pull origin master
+            git pull origin main
             /usr/local/bin/docker-compose  down || true
             sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /root/devops-mastery-playground/docker-compose.yml
             /usr/local/bin/docker-compose  up -d || true

@@ -1,14 +1,14 @@
 # devops .
 
 
-link to presentation -> https://docs.google.com/presentation/d/1fb-fyxiP5T-3Xdn1d7XT1kwAY2jOSOCy1TY5jITSOtw/edit?usp=sharing <br>
-create your own account <br>
+link to presentation -> https://docs.google.com/presentation/d/1fb-fyxiP5T-3Xdn1d7XT1kwAY2jOSOCy1TY5jITSOtw/edit?usp=sharing 
+create your own account 
 ## START
-fork https://github.com/handson-academy/ops-basic-spring/ to your own git <br>
+fork https://github.com/handson-academy/ops-basic-spring/ to your own git 
 
 ### EC2
-create ec2 instance: <br>
-name->testec2, new keypair-> test,  launch instance <br>
+create ec2 instance: 
+name->testec2, new keypair-> test,  launch instance 
 go to inboud rules-> allow all traffic
 
 
@@ -42,8 +42,8 @@ ssh-keygen
 cat ./.ssh/id_rsa.pub
 ```
 
-point to local db <br>
-change src/main/resources/application.properties<br>
+point to local db 
+change src/main/resources/application.properties
 ```
 spring.datasource.url=jdbc:mysql://mysql:3306/students
 spring.datasource.username=students
@@ -54,7 +54,7 @@ install git
 ```
 sudo yum update
 sudo yum install git
-git clone git@github.com:nivitzhaky/ops-basic-spring.git 
+git clone git@github.com:shlomi/ops-basic-spring.git 
 ```
 ### BASIC Linux commands
 ```
@@ -193,17 +193,17 @@ mvn clean install
 ```
 there is a new folder called target with basic-0.0.1-SNAPSHOT.jar file
 ### CREATE DOCKERHUB USER
-https://dockerhub.com <br>
+https://dockerhub.com 
 create token account setting -> security
 
 ### DOCKERIZE
 ```
 sudo docker build . -t backend
 sudo docker login
-nivitzhaky
+shlomi
 Jul201789#
-sudo docker tag backend nivitzhaky/backend
-sudo docker push nivitzhaky/backend
+sudo docker tag backend shlomi/backend
+sudo docker push shlomi/backend
 
 git pull
 echo "
@@ -212,7 +212,7 @@ services:
   appserver:
     container_name: server
     hostname: localhost
-    image: nivitzhaky/backend:latest
+    image: shlomi/backend:latest
     ports:
       - "8080:8080"
   mysql:
@@ -273,7 +273,7 @@ test on http://13.50.247.173:3000
 ### DOCKER AUTOMATION
 add the following secrets:
 ```
-DOCKERHUB_USERNAME = nivitzhaky
+DOCKERHUB_USERNAME = shlomi
 DOCKERHUB_TOKEN = dckr_pat_wNsuA4lJiuBnc4iCsNCmxjCVjc4
 EC2_INSTANCE_PUBLIC_IP = 13.50.235.108
 SSH_KEY = 
@@ -337,14 +337,14 @@ jobs:
             sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/ops-basic-spring/docker-compose.yml
             sudo /usr/local/bin/docker-compose  up -d || true
 ```
-change /src/main/java/com/handson/basic/controller/StudentsController.java <br>
+change /src/main/java/com/handson/basic/controller/StudentsController.java 
 getHighSatStudents -> getHighSatStudents1
 check that swagger updates
 
 ### S3 deploy
-create bucket niv.backend.students <br>
-public false<br>
-in properties make static web hosting true<br>
+create bucket niv.backend.students 
+public false
+in properties make static web hosting true
 add this to permissions:
 ```
 {
@@ -362,7 +362,7 @@ add this to permissions:
 ```
 
 
-in AIM create a user for the deploy with admin privileges <br>
+in AIM create a user for the deploy with admin privileges 
 create and save the access key
 fork the repository: https://github.com/handson-academy/ops-basic-angular
 fill the secrets:
@@ -413,30 +413,30 @@ jobs:
 ```
 
 ### DOMAIN
-1. buy a domain on https://start.godaddy.com/ <br>
+1. buy a domain on https://start.godaddy.com/ 
 
 in aws go to: route53:
 create hosted zone
 
 take the values from here:
-https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#ListRecordSets/Z0578988Z5FGXIZ849XL <br>
+https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#ListRecordSets/Z0578988Z5FGXIZ849XL 
 
 to godaddy:
-<br>
+
 change nameservers from :
-<br>
-Nameservers<br>
-ns19.domaincontrol.com <br>
-ns20.domaincontrol.com <br>
-<br>
-to: <br>
-ns-1255.awsdns-28.org <br>
-ns-579.awsdns-08.net  <br>
-ns-438.awsdns-54.com  <br>
-ns-1717.awsdns-22.co.uk <br>
+
+Nameservers
+ns19.domaincontrol.com 
+ns20.domaincontrol.com 
+
+to: 
+ns-1255.awsdns-28.org 
+ns-579.awsdns-08.net  
+ns-438.awsdns-54.com  
+ns-1717.awsdns-22.co.uk 
 
 ### Domain for ec2
-create A record -> [ec2 ip] -> ec2-raw.nivitzhaky.com
+create A record -> [ec2 ip] -> ec2-raw.shlomi.com
 
 
 ### Cloudfront
@@ -445,29 +445,29 @@ XXXX create
 
 in the project change the url in 
 environment.prod.ts and 
-environment.ts <br>
-to: 'https://ec2-stage.nivitzhaky.com/api'
+environment.ts 
+to: 'https://ec2-stage.shlomi.com/api'
 
-create distribution<br>
-origin1-> select s3 bucket -> use website endpoint -> caching disabled <br>
-alternate domain: ec2-stage.nivitzhaky.com -> custom ssl : request certificate<br>
-fully qualified name:  nivitzhaky.com , *.nivitzhaky.com <br>
-validate with dns <br>
-cname (give name) ec2-stage.nivitzhaky.com and copy cloudfront distribution url<br>
+create distribution
+origin1-> select s3 bucket -> use website endpoint -> caching disabled 
+alternate domain: ec2-stage.shlomi.com -> custom ssl : request certificate
+fully qualified name:  shlomi.com , *.shlomi.com 
+validate with dns 
+cname (give name) ec2-stage.shlomi.com and copy cloudfront distribution url
 hosted zones-> domain -> create record ->
-<br><br>
+
 origin2->
-http only -> 8080-> origin = ec2-raw.nivitzhaky.com => choose all allowed http methods<br>
-alternate domain name-> ec2-stage.nivitzhaky.com<br>
-Custom SSL certificate - optional -> nivitzhaky.com<br>
-<br>
-behaviours: <br>
-api/* -> allowed methods all -> caching all <br>
+http only -> 8080-> origin = ec2-raw.shlomi.com => choose all allowed http methods
+alternate domain name-> ec2-stage.shlomi.com
+Custom SSL certificate - optional -> shlomi.com
+
+behaviours: 
+api/* -> allowed methods all -> caching all 
 * -> leave default
 
 
 
-TERMINATE THE MACHINE IF YOU WANT... <br>
+TERMINATE THE MACHINE IF YOU WANT... 
 
 
 ## ECS
@@ -475,7 +475,7 @@ TERMINATE THE MACHINE IF YOU WANT... <br>
 ### RDS
 
 create a database.
-publicly accesible   , master user: admin, masterpassword: Unix11!! <br>
+publicly accesible   , master user: admin, masterpassword: Unix11!! 
 after created goto inboud rules and add "alltrafic"
 
 ```
@@ -506,15 +506,15 @@ password=Unix11!@
 
 
 ### GITLAB 
-create account <br>
-import https://github.com/handson-academy/ops-basic-spring.git <br>
+create account 
+import https://github.com/handson-academy/ops-basic-spring.git 
 create branch ecs
 
 ### GITLAB variables
 
 
-on gitlab, backend service. <br>
-goto: settings -> ci/cd <br>
+on gitlab, backend service. 
+goto: settings -> ci/cd 
 expand variables, update: (unprotect the vars)
 ```
 AWS_ACCESS_KEY_ID=
@@ -605,21 +605,21 @@ publish:
 
 
 ### ECS
-create taskdefinition ->  ecs-task-definition <br>
-containername ->student-ecs-container<br>
-imageuri-> copy from ecr table<br>
-container port-> 8080 <br>
-cpu - 1, memory- 4 <br>
-configure healthcheck:  CMD-SHELL, curl -f http://localhost:8080/actuator/health <br>
+create taskdefinition ->  ecs-task-definition 
+containername ->student-ecs-container
+imageuri-> copy from ecr table
+container port-> 8080 
+cpu - 1, memory- 4 
+configure healthcheck:  CMD-SHELL, curl -f http://localhost:8080/actuator/health 
 
 
-create cluster: ecs-stage-cluster <br>
-create a service: <br>
-fargate-> service-> family=ecs-task-definition->servicename = ecs-stage-service <br>
+create cluster: ecs-stage-cluster 
+create a service: 
+fargate-> service-> family=ecs-task-definition->servicename = ecs-stage-service 
 
 
-load balancing -> create applicaiton load balancer -> springboot-lb -> port 8080 <br>
-create a target group->  students-ecs-tg-> healthcheck:  /actuator/health -> grace 120 sec <br>
+load balancing -> create applicaiton load balancer -> springboot-lb -> port 8080 
+create a target group->  students-ecs-tg-> healthcheck:  /actuator/health -> grace 120 sec 
 
 
 when the task goes up we can test by ip:8080/swagger-ui.html
@@ -649,9 +649,9 @@ deploy:
 ```
 
 ### front repository:
-gitlab import https://github.com/handson-academy/ops-basic-angular.git <br>
-create branch ecs <br>
-create a public s3 bucket: ecs-stage.files.nivitzhaky.com   (enable static web hosting)
+gitlab import https://github.com/handson-academy/ops-basic-angular.git 
+create branch ecs 
+create a public s3 bucket: ecs-stage.files.shlomi.com   (enable static web hosting)
 in permissions:
 ```
 {
@@ -665,7 +665,7 @@ in permissions:
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::ecs-stage.files.nivitzhaky.com/*"
+            "Resource": "arn:aws:s3:::ecs-stage.files.shlomi.com/*"
         }
     ]
 }
@@ -674,7 +674,7 @@ in permissions:
 ### GITLAB front:
 env variable 
 ```
-BACKEND_URL_ECS -> https:\/\/ecs.nivitzhaky.com\/api
+BACKEND_URL_ECS -> https:\/\/ecs.shlomi.com\/api
 AWS_ACCESS_KEY_ID 
 AWS_SECRET_ACCESS_KEY 
 ```
@@ -728,24 +728,24 @@ deploy stage:
       - ecs  
    script:    
       - pip install awscli    
-      - aws s3 sync ./dist/webapp/ s3://ecs-stage.files.nivitzhaky.com   
+      - aws s3 sync ./dist/webapp/ s3://ecs-stage.files.shlomi.com   
 ```
 ### Cloudfront
-create distribution<br>
-origin1-> select s3 bucket -> use website endpoint -> caching disabled <br>
-alternate domain: ecs.nivitzhaky.com
-cname (give name) ecs.nivitzhaky.com and copy cloudfront distribution url<br>
+create distribution
+origin1-> select s3 bucket -> use website endpoint -> caching disabled 
+alternate domain: ecs.shlomi.com
+cname (give name) ecs.shlomi.com and copy cloudfront distribution url
 hosted zones-> domain -> create record ->
-<br><br>
+
 origin2->
-http only ->  springboot-lb -> 8080->  choose all allowed http methods<br>
-alternate domain name-> ecs.nivitzhaky.com
-<br>
-behaviours: <br>
-api/* -> allowed methods all -> caching all <br>
+http only ->  springboot-lb -> 8080->  choose all allowed http methods
+alternate domain name-> ecs.shlomi.com
+
+behaviours: 
+api/* -> allowed methods all -> caching all 
 * -> leave default
 
-cname (give name) ecs.nivitzhaky.com and copy cloudfront distribution url
+cname (give name) ecs.shlomi.com and copy cloudfront distribution url
 
 
 
@@ -798,11 +798,11 @@ echo 'export LBC_CHART_VERSION="1.4.1"' >>  ~/.bash_profile
 .  ~/.bash_profile
 ```
 
-create role for the computer: <br>
+create role for the computer: 
 https://console.aws.amazon.com/iam/home#/roles$new?step=review&commonUseCase=EC2%2BEC2&selectedUseCase=EC2&policies=arn:aws:iam::aws:policy%2FAdministratorAccess&roleName=eks-admin
-<br>
-next next<br>
-turn off credential managment in settings icone -> aws settings -> turn off temporary credentials <br>
+
+next next
+turn off credential managment in settings icone -> aws settings -> turn off temporary credentials 
 go to top right -> manage ec2 instance -> actions -> security -> modify aim role -> select eks-admin
 
 
@@ -939,11 +939,11 @@ go to IAM->roles-> eks-admin->trust relationships -> edit trust policies and add
 		}
 ```
 ### connect to cluster
-install kubectl -> https://kubernetes.io/docs/tasks/tools/<br>
-install aws cli -> https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html<br>
-add key and secret key via aws configure<br> 
-aws eks update-kubeconfig --name eks-students --region eu-north-1  --role-arn arn:aws:iam::304303674048:role/eks-admin <br>
-install and run lens https://k8slens.dev/<br>
+install kubectl -> https://kubernetes.io/docs/tasks/tools/
+install aws cli -> https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+add key and secret key via aws configure 
+aws eks update-kubeconfig --name eks-students --region eu-north-1  --role-arn arn:aws:iam::304303674048:role/eks-admin 
+install and run lens https://k8slens.dev/
 
 ### delete helms
 ```
@@ -955,7 +955,7 @@ https://phoenixnap.com/kb/helm-commands-cheat-sheet
 create ecr and call it students_eks
 
 ### EKS auto deploy
-in gitlab go to eks branch -> springboot-> values.yaml put the ecr adress<br>
+in gitlab go to eks branch -> springboot-> values.yaml put the ecr adress
 
 ci-settings.xml
 ```
@@ -1046,7 +1046,7 @@ deploy_to_eks:
 ```
 
 ### FRONT AUTOMATION
-create a public s3 bucket: eks-stage.nivitzhaky.com (enable static web hosting) <br>
+create a public s3 bucket: eks-stage.shlomi.com (enable static web hosting) 
 
 in permissions:
 ```
@@ -1061,14 +1061,14 @@ in permissions:
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::eks-stage.nivitzhaky.com/*"
+            "Resource": "arn:aws:s3:::eks-stage.shlomi.com/*"
         }
     ]
 }
 ```
 
 ### EKS S3 Bucket:
-create a public s3 bucket: eks-staging.nivitzhaky.com   (enable static web hosting)
+create a public s3 bucket: eks-staging.shlomi.com   (enable static web hosting)
 in permissions:
 ```
 {
@@ -1082,16 +1082,16 @@ in permissions:
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::eks-staging.nivitzhaky.com/*"
+            "Resource": "arn:aws:s3:::eks-staging.shlomi.com/*"
         }
     ]
 }
 ```
 ### GITLAB front automation
-create branch eks <br>
+create branch eks 
 env variable 
 ```
-BACKEND_URL_EKS -> https:\/\/eks.nivitzhaky.com\/api
+BACKEND_URL_EKS -> https:\/\/eks.shlomi.com\/api
 ```
 
 .gitlab-ci.yml
@@ -1123,30 +1123,30 @@ deploy stage:
       - eks  
    script:    
       - pip install awscli    
-      - aws s3 sync ./dist/webapp/ s3://eks-staging.nivitzhaky.com   
+      - aws s3 sync ./dist/webapp/ s3://eks-staging.shlomi.com   
 ```
 ### Cloudfront
-create distribution<br>
-origin1-> select s3 bucket -> use website endpoint -> caching disabled <br>
-alternate domain: eks.nivitzhaky.com
-cname (give name) eks.nivitzhaky.com and copy cloudfront distribution url<br>
+create distribution
+origin1-> select s3 bucket -> use website endpoint -> caching disabled 
+alternate domain: eks.shlomi.com
+cname (give name) eks.shlomi.com and copy cloudfront distribution url
 hosted zones-> domain -> create record ->
-<br><br>
+
 origin2->
-http only ->  ekslb -> 8081->  choose all allowed http methods<br>
-alternate domain name-> eks.nivitzhaky.com
-<br>
-behaviours: <br>
-api/* -> allowed methods all -> caching all <br>
+http only ->  ekslb -> 8081->  choose all allowed http methods
+alternate domain name-> eks.shlomi.com
+
+behaviours: 
+api/* -> allowed methods all -> caching all 
 * -> leave default
 
-cname (give name) eks.nivitzhaky.com and copy cloudfront distribution url
+cname (give name) eks.shlomi.com and copy cloudfront distribution url
 
 ## CLEANUP
 
-delete ecs-stage-cluster<br>
-eksctl delete  cluster -f eks.yaml  <br>
-terminate the ec2 instance<br>
-delete load balancers<br>
-delete RDS<br>
+delete ecs-stage-cluster
+eksctl delete  cluster -f eks.yaml  
+terminate the ec2 instance
+delete load balancers
+delete RDS
 
